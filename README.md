@@ -7,7 +7,16 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
 1. Add a new Windows Forms project.
   - Set framework to .NET 4.6
 
-2. Add project.json file.
+2. Edit the .cjproj file in a text editor
+  - Using the Productivity Power Tools extension makes this easier
+  - Add the following to the first `<PropertyGroup>`
+  - This is necessary for NuGet to bring in libuv.dll
+
+    ```xml
+    <BaseNuGetRuntimeIdentifier>win7-x86</BaseNuGetRuntimeIdentifier>
+    ```
+
+3. Add project.json file.
 
     ```json
     {
@@ -18,7 +27,7 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
         "Microsoft.NETCore.Platforms": "1.0.1-*"
       },
       "runtimes": {
-        "win": {}
+        "win7-x86": {}
       },
       "frameworks": {
         "net46": {}
@@ -26,7 +35,7 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
     }
     ```
 
-3. Add a `RunWebHost` method to Program.cs.
+4. Add a `RunWebHost` method to Program.cs.
 
     ```csharp
     private static void RunWebHost()
@@ -45,7 +54,7 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
     Task.Run(() => RunWebHost());
     ```
 
-4. Add a `Startup` class.
+5. Add a `Startup` class.
   - Configure Mvc core with Json formatters.
 
     ```csharp
@@ -63,7 +72,7 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
         }
     }
     ```
-5. Add a TextBox to the main form
+6. Add a TextBox to the main form
   - Name it: nameTextBox
   - Add a NameText property
   - Use SynchronizationContext for the setter
@@ -94,7 +103,7 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
     }
     ```
 
-6. Add a GreetingController with Get and Post methods.
+7. Add a GreetingController with Get and Post methods.
   - Get and set the NameText property on the main form
 
     ```csharp
@@ -117,10 +126,6 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
         }
     }
     ``` 
-
-7. Copy libuv.dll from win7-x86
-  - Located in current user: .nuget\packages\Libuv\1.9.0-rc2-20828\runtimes
-  - Paste into bin\Debug folder
 
 8. Use an http client such as Fiddler or Postman to send requests
   - Uri: `http://localhost:5000/hello/`

@@ -6,7 +6,7 @@
     "Microsoft.NETCore.Platforms": "1.0.1-*"
   },
   "runtimes": {
-    "win": {}
+    "win7-x86": { }
   },
   "frameworks": {
     "net46": {}
