@@ -7,7 +7,7 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
 1. Add a new Windows Forms project.
   - Set framework to .NET 4.6
 
-2. Edit the .cjproj file in a text editor
+2. Edit the .csproj file in a text editor
   - Using the Productivity Power Tools extension makes this easier
   - Add the following to the first `<PropertyGroup>`
   - This is necessary for NuGet to bring in libuv.dll
