@@ -1,68 +1,34 @@
-# ASP.NET Core Self-Hosting with .NET 4.6 Apps
+# ASP.NET Core Self-Hosting with .NET 4.x Apps
 
-Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
+Demonstrates how to self-host an ASP.NET Core app using .NET 4.x apps.
 
-## Self-Hosted MVC Core with Windows Forms 4.6
+## Self-Hosted MVC Core with Windows Forms 4.x
 
 1. Add a new Windows Forms project.
-  - Set framework to .NET 4.6
+    - Set framework to .NET 4.7.2
 
-2. Edit the .csproj file in a text editor
-  - Using the Productivity Power Tools extension makes this easier
-  - Add the following to the first `<PropertyGroup>`
-  - This is necessary for NuGet to bring in libuv.dll
+2. Add the following NuGet packages
+     - Microsoft.AspNetCore
+     - Microsoft.AspNetCore.Mvc.Core
+     - Microsoft.AspNetCore.Mvc.Formatters.Json
 
-    ```xml
-    <BaseNuGetRuntimeIdentifier>win7-x86</BaseNuGetRuntimeIdentifier>
-    ```
-
-3. Add project.json file.
-
-    ```json
-    {
-      "dependencies": {
-        "Microsoft.AspNetCore.Mvc.Core": "1.0.0-*",
-        "Microsoft.AspNetCore.Mvc.Formatters.Json": "1.0.0-*",
-        "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-*",
-        "Microsoft.NETCore.Platforms": "1.0.1-*"
-      },
-      "runtimes": {
-        "win7-x86": {}
-      },
-      "frameworks": {
-        "net46": {}
-      }
-    }
-    ```
-
-4. Add a `RunWebHost` method to Program.cs.
-
-    ```csharp
-    private static void RunWebHost()
-    {
-        var host = new WebHostBuilder()
-            .UseKestrel()
-            .UseStartup<Startup>()
-            .Build();
-        host.Run();
-    }
-    ```
-
-  - Call the method asynchronously from Main.
-
-    ```csharp
-    Task.Run(() => RunWebHost());
-    ```
-
-5. Add a `Startup` class.
-  - Configure Mvc core with Json formatters.
+3. Add a `Startup` class.
+     - Configure Mvc core with Json formatters.
 
     ```csharp
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                     .AddJsonFormatters();
         }
 
@@ -72,12 +38,33 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
         }
     }
     ```
-6. Add a TextBox to the main form
-  - Name it: nameTextBox
-  - Add a NameText property
-  - Use SynchronizationContext for the setter
 
-    ```charp
+4. Add a `CreateWebHostBuilder` method to Program.cs.
+
+    ```csharp
+    public static IWebHostBuilder CreateWebHostBuilder() =>
+        WebHost.CreateDefaultBuilder()
+            .UseStartup<Startup>();
+    ```
+
+     - Call the method asynchronously from Main.
+
+    ```csharp
+    Task.Run(() => CreateWebHostBuilder().Build().Run());
+    ```
+
+     - Add a static `MainForm` property.
+
+    ```csharp
+    public static MainForm Form { get; private set; }
+    ```
+
+5. Add a TextBox to the main form.
+     - Name it: nameTextBox
+     - Add a NameText property
+     - Use SynchronizationContext for the setter
+
+    ```csharp
     public partial class MainForm : Form
     {
         private SynchronizationContext _syncRoot;
@@ -103,8 +90,8 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
     }
     ```
 
-7. Add a GreetingController with Get and Post methods.
-  - Get and set the NameText property on the main form
+6. Add a GreetingController with Get and Post methods.
+     - Get and set the NameText property on the main form
 
     ```csharp
     [Route("/hello")]
@@ -128,10 +115,12 @@ Demonstrates how to self-host an ASP.NET Core app using .NET 4.6 apps.
     ``` 
 
 8. Use an http client such as Fiddler or Postman to send requests
-  - Uri: `http://localhost:5000/hello/`
-  - Add Accept and Content-Type headers: application/json
+     - Uri: `http://localhost:5000/hello/`
+     - Add Accept and Content-Type headers: application/json
 
-9. Use the ConsoleClient to send requests
-  - Add the NuGet package: Microsoft.AspNet.WebApi.Client
-  - First run the WinForms project, then the console client
+9. Add a .NET Core console app to send requests.
+     - Add NuGet packages:
+       - Microsoft.Extensions.Http
+       - Newtonsoft.Json
+     - Use `HttpClient` to send Post and Get requests.
 

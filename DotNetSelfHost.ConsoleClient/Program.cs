@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace ConsoleClient
+namespace DotNetSelfHost.ConsoleClient
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Create http client
             var client = new HttpClient
@@ -20,22 +23,20 @@ namespace ConsoleClient
             while (name?.Length > 0)
             {
                 // Set greeting
-                var postResponse = client.PostAsJsonAsync("", name).Result;
+                var content = new StringContent(JsonConvert.SerializeObject(name), Encoding.UTF8, "application/json");
+                var postResponse = await client.PostAsync("", content);
                 postResponse.EnsureSuccessStatusCode();
 
                 // Get greeting
                 var getResponse = client.GetAsync("").Result;
                 getResponse.EnsureSuccessStatusCode();
-                var greeting = getResponse.Content.ReadAsAsync<string>().Result;
+                var greeting = getResponse.Content.ReadAsStringAsync().Result;
                 Console.WriteLine($"Greeting: {greeting}");
 
                 // Get name again
                 Console.WriteLine();
                 name = GetNameFromUser();
             }
-
-            Console.WriteLine("Press Enter to exit.");
-            Console.ReadLine();
         }
 
         private static string GetNameFromUser()
