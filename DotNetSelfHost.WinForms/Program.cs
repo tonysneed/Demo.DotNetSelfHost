@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.AspNetCore.Hosting;
 
 namespace DotNetSelfHost.WinForms
 {
@@ -13,23 +14,17 @@ namespace DotNetSelfHost.WinForms
         [STAThread]
         static void Main()
         {
-            Task.Run(() => RunWebHost());
+            Task.Run(() => CreateWebHostBuilder().Build().Run());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form = new MainForm();
             Application.Run(Form);
-
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder() =>
+            WebHost.CreateDefaultBuilder()
+                .UseStartup<Startup>();
 
         public static MainForm Form { get; private set; }
-
-        private static void RunWebHost()
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseStartup<Startup>()
-                .Build();
-            host.Run();
-        }
     }
 }
