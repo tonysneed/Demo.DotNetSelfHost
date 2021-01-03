@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DotNetSelfHost.WinForms.Controllers
+namespace Net5SelfHost.WinForms.Controllers
 {
     [Route("/hello")]
     public class GreetingController

@@ -1,29 +1,33 @@
-﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DotNetSelfHost.WinForms
+namespace Net5SelfHost.WinForms
 {
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Task.Run(() => CreateWebHostBuilder().Build().Run());
+            Task.Run(() => CreateHostBuilder().Build().Run());
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form = new MainForm();
             Application.Run(Form);
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder() =>
-            WebHost.CreateDefaultBuilder()
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder() =>
+            Host.CreateDefaultBuilder()
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
 
         public static MainForm Form { get; private set; }
     }

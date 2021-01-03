@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
-namespace DotNetSelfHost.ConsoleClient
+namespace Net5SelfHost.ConsoleClient
 {
     class Program
     {
@@ -23,7 +23,7 @@ namespace DotNetSelfHost.ConsoleClient
             while (name?.Length > 0)
             {
                 // Set greeting
-                var content = new StringContent(JsonConvert.SerializeObject(name), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(name), Encoding.UTF8, "application/json");
                 var postResponse = await client.PostAsync("", content);
                 postResponse.EnsureSuccessStatusCode();
 
