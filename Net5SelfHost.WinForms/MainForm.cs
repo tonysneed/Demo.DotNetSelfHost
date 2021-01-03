@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Windows.Forms;
 
-namespace DotNetSelfHost.WinForms
+namespace Net5SelfHost.WinForms
 {
     public partial class MainForm : Form
     {
