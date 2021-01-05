@@ -1,10 +1,10 @@
-# ASP.NET Core Self-Hosting with a .NET 5 Windows Forms App
+# ASP.NET Core Self-Hosting with a .NET Core 3.1 Windows Forms App
 
-Demonstrates how to self-host an ASP.NET Core app using a .NET 5 Windows Forms app.
+Demonstrates how to self-host an ASP.NET Core app using a .NET Core 3.1 Windows Forms app.
 
-## Self-Hosted MVC Core with a .NET 5 Windows Forms App
+## Self-Hosted MVC Core with a .NET Core 3.1 Windows Forms App
 
-1. Add a new .NET 5 Windows Forms project.
+1. Add a new .NET Core 3.1 Windows Forms project.
 
 2. Update the Project SDK in .csproj file to **Web**.
    - Add .Web to  Microsoft.NET.Sdk
@@ -12,7 +12,7 @@ Demonstrates how to self-host an ASP.NET Core app using a .NET 5 Windows Forms a
     <Project Sdk="Microsoft.NET.Sdk.Web">
         <PropertyGroup>
             <OutputType>WinExe</OutputType>
-            <TargetFramework>net5.0-windows</TargetFramework>
+            <TargetFramework>netcoreapp3.1</TargetFramework>
             <UseWindowsForms>true</UseWindowsForms>
         </PropertyGroup>
     </Project>
