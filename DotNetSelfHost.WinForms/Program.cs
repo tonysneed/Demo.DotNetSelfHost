@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Net5SelfHost.WinForms
@@ -14,7 +13,7 @@ namespace Net5SelfHost.WinForms
         [STAThread]
         static void Main()
         {
-            Task.Run(() => CreateHostBuilder().Build().Run());
+            CreateHostBuilder().Build().RunAsync();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

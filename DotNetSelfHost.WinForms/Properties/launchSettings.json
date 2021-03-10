@@ -3,11 +3,11 @@
     "Net5SelfHost.WinForms": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "hello",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000",
-      "launchUrl": "hello"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

@@ -73,7 +73,7 @@ Demonstrates how to self-host an ASP.NET Core app using a .NET 5 Windows Forms a
     ```csharp
     static void Main()
     {
-        Task.Run(() => CreateHostBuilder().Build().Run());
+        CreateHostBuilder().Build().RunAsync();
         Application.SetHighDpiMode(HighDpiMode.SystemAware);
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
